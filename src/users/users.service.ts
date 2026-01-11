@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateUserDto } from 'src/dto/CreateUserDto';
+import { CreateUserDto } from 'src/dto/user.dto';
 import { BadRequestException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
@@ -54,6 +54,22 @@ export class UsersService {
         },
       });
       return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteUser(id: string) {
+    try {
+      const user = await this.prisma.user.delete({
+        where: {
+          id: id,
+        },
+      });
+      return {
+        message: 'User deleted successfully',
+        user,
+      };
     } catch (error) {
       throw error;
     }
